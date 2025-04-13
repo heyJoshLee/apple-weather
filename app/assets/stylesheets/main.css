@@ -11,29 +11,116 @@ html, body {
   padding: 0;
   height: 100%;
   width: 100%;
+  background-color: white;;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 #app-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  width: 100%;
-  background-color: var(--grey-light);
-  color: var(--black-main);
+  max-width: 600px;
   align-items: center;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  margin: 10px auto 0;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+  font-size: 2rem;
+  padding: 20px;
+  justify-content: center;
+}
 
+/* Autocomplete */
+#radar-autocomplete {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 80%;
+}
+
+#radar-autocomplete input {
+  /* outline: none; */
+  background-color: none;
+  height: 2rem;
+  font-size: 1rem;
+  text-align: center;
+  overflow: auto;
+  border: none;
+  border-bottom: 1px solid lightgrey;
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+#radar-autocomplete-results-list {
+  list-style: none;
+  max-width: 1200px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+#radar-autocomplete-results-list li {
+  border-bottom: 1px solid var(--grey-light);
+  margin: 1.5rem 0;
+  padding: .2rem;
+}
+
+#radar-autocomplete-results-list li:hover {
+  background-color: var(--grey-light);
+  cursor: pointer;
+}
+
+.radar-autocomplete-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+
+}
+
+.radar-autocomplete-wrapper input {
+  margin: 0 auto;
+  /* width: 100%; */
+}
+
+
+/* #radar-autocomplete-results-item li {
+  font-size: 12rem;
+} */
+
+#radar-autocomplete-results-item li:hover {
+  background-color: var(--grey-dark);
+  cursor: pointer;
+}
+
+.radar-autocomplete-input {
+  padding: 4px;
+  margin: 0 auto;
+}
+
+/* Weather Card */
+
+#weatherCards {
+  width: 100%;
+}
+
+
+.weather-card {
+  border-bottom: 1px solid lightgrey;
+  padding: 4px;
+  margin: 8px 0;
+  font-size: 1rem;
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
   
 }
 
-.weather-card {
-  background-color: red;
-  border: 1px solid #D1D1D6;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  margin: 8px 0;
-  font-size: 1rem;
+.weather-card .row{
   display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .weather-card .title {
@@ -52,38 +139,33 @@ html, body {
 }
 
 
-#radar-autocomplete {
 
+
+
+.temp {
+  margin: 0 1rem;
 }
 
-#radar-autocomplete input {
+.temp.min {
+  color: blue;
+}
+
+
+.temp.max {
+  color: red;
+}
+
+.main-date {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--black-main);
   margin: 0 auto;
-  border: none;
-  width: 100%;
-  max-width: 1200px;
-  background-color: none;
-  height: 2rem;
-  font-size: 1rem;
-  margin-top: 2rem;
   text-align: center;
-  overflow: visible;
 }
 
-#radar-autocomplete-results-list {
-  list-style: none;
-  padding: 0;
+#cachedText {
   margin: 0;
-  width: 100%;
-  max-width: 1200px;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--grey-dark);
 }
-
-#radar-autocomplete-results-item {
-  margin: 4px 0;
-  
-}
-
-#radar-autocomplete-results-list li:hover {
-  background-color: var(--grey-light);
-  cursor: pointer;
-}
-
