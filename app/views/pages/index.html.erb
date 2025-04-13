@@ -1,12 +1,7 @@
-<div id="app-container">
-  <div data-controller="address">
+<div id="app-container" data-controller="address">
     <div id="radar-autocomplete"></div>
-      <p data-address-target="formattedAddress"></p>
-      <div id="weather-cards" data-address-target="weatherCards">
-      </div>
-    </div>
-  </div>
-
-
+    <div data-address-target="mainDate" class="mainDate"></div>
+    <p data-address-target="cachedText" id="cachedText"></p>    
+    <div data-address-target="weatherCards" id="weatherCards"></div>
 </div>
 

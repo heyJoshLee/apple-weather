@@ -48,7 +48,6 @@ module FetchWeatherService
         end
         json_data
       rescue => error
-        puts "Error fetching forecast data: #{error}"
         return nil
       end
     end

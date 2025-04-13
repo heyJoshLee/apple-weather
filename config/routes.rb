@@ -13,4 +13,7 @@ Rails.application.routes.draw do
   root "pages#index"
   post 'weather/now', to: 'weathers#now'
   post 'weather/forecast', to: 'weathers#forecast'
+  get 'weather/exists/:zip_code', to: 'weathers#exists'
+  post 'addresses/fetch', to: 'addresses#fetch_address_forcast'
+  resources :addresses, only: [:create, :show, :update]
 end
