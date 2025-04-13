@@ -12,6 +12,12 @@ FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 WORKDIR /rails
 
 # Install base packages
+
+# Update RubyGems and Bundler to match what's required by your Gemfile.lock
+RUN gem update --system 3.4.22 && \
+    gem install bundler -v 2.5.18
+
+
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
