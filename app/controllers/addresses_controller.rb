@@ -8,11 +8,11 @@ class AddressesController < ApplicationController
     latitude = params[:latitude]
     longitude = params[:longitude]
     @address = Address.find_by(postal_code: postal_code)
+
     if @address
-      if !@address.last_api_call || @address.last_api_call < 30.minutes.ago
+      if !@address.last_api_call || @address.need_to_cache
         lat = params[:address][:lat]
         lon = params[:address][:lon]
-        p @address.last_api_call > 30.minutes.ago
         new_forecast = FetchWeatherService::fetch_forecast(latitude, longitude)        
         if new_forecast
           @address.update(last_api_call: Time.now, forecast: new_forecast)

@@ -17,6 +17,4 @@ RSpec.describe "Weather API", type: :request do
       expect(json_response["error"]).to eq('Unable to fetch forecast data')
     end
   end
-
-
 end
