@@ -31,7 +31,7 @@ RSpec.describe "Address API", type: :request do
       post '/addresses/fetch', params: { postalCode: '12345', latitude: test_lat, longitude: test_lon }, as: :json
       json_response = JSON.parse(response.body)
       expect(response).to have_http_status(:ok)
-      expect(json_response["cached"]).to eq(nil)
+      expect(json_response["cached"]).to eq(false)
       expect(json_response["data"]["forecast"]["temp"]).not_to eq(20)
     end
 

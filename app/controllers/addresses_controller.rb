@@ -58,6 +58,6 @@ class AddressesController < ApplicationController
   end
   
   def render_error(message)
-    render json: { success: false, error: message }, status: :unprocessable_entity
+    render json: { success: nil, error: message }, status: :unprocessable_entity
   end
 end

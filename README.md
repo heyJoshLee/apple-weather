@@ -1,5 +1,12 @@
 # Weather app
+Application to get weather forecast for a specific address. Includes test suite.
+
 Author: Josh Lee
+
+ 
+
+## Walkthrough Video
+[Video Link](https://komododecks.com/recordings/0UGW9ZHbgYZ1gMpkShtr)
 
 ## Deployment
 
@@ -19,6 +26,10 @@ Author: Josh Lee
     secret_key_base: KEY
   ```
   4. Migrate database
+
+### Test suite
+$ rspec
+
 
 ## FetchWeatherService
 Interface with the third-party weather API. Can later be refactored to decouple the third-party API from the rails service.
