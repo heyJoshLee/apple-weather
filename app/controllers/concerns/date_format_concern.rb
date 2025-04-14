@@ -1,6 +1,7 @@
 module DateFormatConcern
   extend ActiveSupport::Concern
     class << self
+      # Return the date from a timestamp in the format "Jan 01st"
       def month_day(timestamp)
         date = Time.at(timestamp).to_date
         formatted_date = date.strftime('%b %d')

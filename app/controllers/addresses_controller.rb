@@ -2,35 +2,62 @@ class AddressesController < ApplicationController
   include FetchWeatherService
   protect_from_forgery with: :null_session
 
-  # TODO: Clean up this method. Make it easier to read and extract logic to other methods or services
-  def fetch_address_forcast
+  # Consider refactoring to keep controllers thin
+  def fetch_address_forecast
     postal_code = params[:postalCode]
     latitude = params[:latitude]
     longitude = params[:longitude]
+    
     @address = Address.find_by(postal_code: postal_code)
-
+  
     if @address
-      if !@address.last_api_call || @address.need_to_cache
-        lat = params[:address][:lat]
-        lon = params[:address][:lon]
-        new_forecast = FetchWeatherService::fetch_forecast(latitude, longitude)        
-        if new_forecast
-          @address.update(last_api_call: Time.now, forecast: new_forecast)
-          render json: { success: true, data: @address, message: "called api for exsisting addresss", address: params }, status: :ok
-        else
-          render json: { success: false, error: 'Unable to fetch weather data' }, status: :unprocessable_entity
-        end
-      else
-        render json: { success: true, data: @address, cached: true, message: "cached response", address: params }, status: :ok
-      end
+      handle_existing_address(@address, latitude, longitude)
     else
-      new_forecast = FetchWeatherService::fetch_forecast(latitude, longitude)
-      if new_forecast
-        @address = Address.create(last_api_call: Time.now, postal_code: postal_code, forecast: new_forecast)
-        render json: { success: true, data: @address, message: "Brand new forecaset for new address", address: params }, status: :created
-      else
-        render json: { success: false, error: 'Unable to fetch weather data' }, status: :unprocessable_entity
-      end
+      handle_new_address(postal_code, latitude, longitude)
     end
+  end
+  
+  private
+  
+  def handle_existing_address(address, latitude, longitude)
+    if address_needs_update?(address)
+      update_forecast(address, latitude, longitude)
+    else
+      render_json(address, cached: true, message: "cached response")
+    end
+  end
+  
+  def address_needs_update?(address)
+    !address.last_api_call || address.need_to_cache
+  end
+  
+  def update_forecast(address, latitude, longitude)
+    new_forecast = FetchWeatherService.fetch_forecast(latitude, longitude)
+    
+    if new_forecast
+      address.update(last_api_call: Time.now, forecast: new_forecast)
+      render_json(address, message: "called api for existing address")
+    else
+      render_error('Unable to fetch weather data')
+    end
+  end
+  
+  def handle_new_address(postal_code, latitude, longitude)
+    new_forecast = FetchWeatherService.fetch_forecast(latitude, longitude)
+    
+    if new_forecast
+      @address = Address.create(last_api_call: Time.now, postal_code: postal_code, forecast: new_forecast)
+      render_json(@address, message: "Brand new forecast for new address", status: :created)
+    else
+      render_error('Unable to fetch weather data')
+    end
+  end
+  
+  def render_json(address, message:, cached: false, status: :ok)
+    render json: { success: true, data: address, cached: cached, message: message, address: params }, status: status
+  end
+  
+  def render_error(message)
+    render json: { success: false, error: message }, status: :unprocessable_entity
   end
 end

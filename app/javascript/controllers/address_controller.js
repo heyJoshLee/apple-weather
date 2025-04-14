@@ -12,17 +12,13 @@ export default class extends Controller {
 
   // Currently using multi-date forecast instead of current weather
   async fetchWeatherForecastForLocation (address) {
-    console.log("Fetching weather forecast for address:", address);
     const weatherData = await fetchAddress(address);
 
-    this.weatherCardsTarget.innerHTML = '' 
-    this.cachedTextTarget.textContent = '';
+    this.clearUi();
 
     const date = weatherData.data.forecast.list[0].dt_txt.split(" ")[0];    
     this.mainDateTarget.textContent = prettyDatefromYYYMMDD(date);
     const items = weatherData.data.forecast.list;
-    console.log("weatherData:", weatherData);
-    
 
     const cachedText = weatherData.cached ? "Previously cached" : "Just now";
     this.cachedTextTarget.textContent = cachedText;
@@ -41,6 +37,7 @@ export default class extends Controller {
     const card = document.createElement('div');
     
     card.className = 'weather-card';
+    // TODO: Extract this to a partial or other template file
     card.innerHTML = `
       <div class="row">
         <p class="time">Time: ${timeFromDateTime(forecastData.dt_txt)}</p>
@@ -53,5 +50,11 @@ export default class extends Controller {
 
     `;
     return card;
+  }
+
+  // TOOD: Add this to an event listener to clear results when the user starts to enter a new address
+  clearUi() {
+    this.weatherCardsTarget.innerHTML = '';
+    this.cachedTextTarget.textContent = '';
   }
 }
